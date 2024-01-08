@@ -1,9 +1,9 @@
 package com.example.quizapp.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.quizapp.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -33,19 +33,18 @@ class LoginActivity : AppCompatActivity() {
         val email = binding.etEmailAddress.text.toString()
         val password = binding.etPassword.text.toString()
 
-        if(email.isBlank() || password.isBlank()) {
+        if (email.isBlank() || password.isBlank()) {
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             return
         }
 
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this){
-            if(it.isSuccessful) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) {
+            if (it.isSuccessful) {
                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Authentication Failed", Toast.LENGTH_SHORT).show()
             }
         }

@@ -19,7 +19,6 @@ class LoginIntro : AppCompatActivity() {
 
         if(UserLoginInfo.userLoggedIn()){
             Log.d("YperLogin", "inside != null")
-            Toast.makeText(this, "User already logged in", Toast.LENGTH_SHORT).show()
             redirect("MAIN")
         }
 

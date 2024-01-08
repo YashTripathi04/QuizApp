@@ -19,7 +19,7 @@ object ColorPicker {
 
     private var currentColor = 0;
 
-    fun getColor(): String{
+    fun getColor(): String {
         currentColor = (currentColor + 1) % colors.size
         return colors[currentColor]
     }

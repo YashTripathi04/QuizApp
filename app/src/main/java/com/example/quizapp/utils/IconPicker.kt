@@ -1,6 +1,5 @@
 package com.example.quizapp.utils
 
-import android.graphics.drawable.Drawable
 import com.example.quizapp.R
 
 object IconPicker {
@@ -16,7 +15,7 @@ object IconPicker {
     )
     private var currentIcon = 0
 
-    fun getIcon(): Int{
+    fun getIcon(): Int {
         currentIcon = (currentIcon + 1) % icons.size
         return icons[currentIcon]
     }

@@ -1,9 +1,8 @@
 package com.example.quizapp.activities
 
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import androidx.appcompat.app.AppCompatActivity
 import com.example.quizapp.databinding.ActivityResultBinding
 import com.example.quizapp.models.Quiz
 import com.google.gson.Gson
@@ -19,7 +18,6 @@ class ResultActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpViews()
-
     }
 
     private fun setUpViews() {

@@ -1,28 +1,23 @@
 package com.example.quizapp.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.quizapp.R
 import com.example.quizapp.adapters.QuizAdapter
 import com.example.quizapp.databinding.ActivityMainBinding
 import com.example.quizapp.models.Quiz
-import com.example.quizapp.utils.UserLoginInfo
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
 import java.util.Date
 
-
-// abc@gmail.com qwerty
-// ALT+CTRL+L : to format
-// CTRL+SHIFT+O : to sync gradle file
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setUpViews()
-
     }
 
     private fun setUpViews() {
@@ -68,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             ActionBarDrawerToggle(this, binding.drawerLayout, R.string.app_name, R.string.app_name)
         actionBarDrawerToggle.syncState()
 
-        binding.apply{
+        binding.apply {
             navigationView.setNavigationItemSelectedListener {
                 val intent = Intent(this@MainActivity, ProfileActivity::class.java)
                 startActivity(intent)
@@ -94,23 +88,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun populateDummyData() {
-        quizList.add(Quiz("1", "04-06-2002"))
-        quizList.add(Quiz("2", "05-06-2002"))
-        quizList.add(Quiz("3", "06-06-2012"))
-        quizList.add(Quiz("4", "07-06-2022"))
-        quizList.add(Quiz("5", "08-06-2032"))
-        quizList.add(Quiz("6", "11-06-2001"))
-        quizList.add(Quiz("7", "17-06-2023"))
-        quizList.add(Quiz("1", "04-06-2002"))
-        quizList.add(Quiz("2", "05-06-2002"))
-        quizList.add(Quiz("3", "06-06-2012"))
-        quizList.add(Quiz("4", "07-06-2022"))
-        quizList.add(Quiz("5", "08-06-2032"))
-        quizList.add(Quiz("6", "11-06-2001"))
-        quizList.add(Quiz("7", "17-06-2023"))
-    }
-
     /**
     addSnapshotListner: takes a snapshot of database and sends it to app.
     Snapshot is basically all data in database at that moment. This listner keeps listening
@@ -123,10 +100,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun setUpFireStore() {
         firestore = FirebaseFirestore.getInstance()
-        val collectionReference = firestore.collection("Quizzes")
+        val collectionReference =
+            firestore.collection("Quizzes").orderBy("title", Query.Direction.DESCENDING)
         collectionReference.addSnapshotListener { value, error ->
             if (value == null || error != null) {
-                Toast.makeText(this, "Error fetching data", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error fetching data....", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
             for (x in value) {
@@ -169,5 +147,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }

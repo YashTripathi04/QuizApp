@@ -1,16 +1,12 @@
 package com.example.quizapp.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import com.example.quizapp.R
 import com.example.quizapp.adapters.OptionAdapter
 import com.example.quizapp.databinding.ActivityQuestionBinding
 import com.example.quizapp.models.Question
@@ -23,6 +19,7 @@ class QuestionActivity : AppCompatActivity() {
     private var quizzes: MutableList<Quiz>? = null
     private var questions: MutableMap<String, Question>? = null
     private var index = 1
+    private lateinit var actionBarTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,11 +61,13 @@ class QuestionActivity : AppCompatActivity() {
                 optionsListRecycleView.setHasFixedSize(true) // improves performance as we know this rv has fixed size = 4
             }
         }
+        supportActionBar?.title = "Quiz: $actionBarTitle"
     }
 
     private fun setUpFirebase() {
         val firestore = FirebaseFirestore.getInstance()
         val date = intent.getStringExtra("DATE")
+        actionBarTitle = date!!
         Log.d("YperDate", "$date")
         if (date != null) {
             firestore.collection("Quizzes")
@@ -83,7 +82,7 @@ class QuestionActivity : AppCompatActivity() {
                         val s = questions!!.size
                         Log.d("YperLength", "$s")
                         setUpQuestionActivity()
-                    }else{
+                    } else {
                         Toast.makeText(this, "No quiz available", Toast.LENGTH_SHORT).show()
                         finish()
                     }
