@@ -2,7 +2,6 @@ package com.example.quizapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -102,23 +101,15 @@ class MainActivity : AppCompatActivity() {
         firestore = FirebaseFirestore.getInstance()
         val collectionReference =
             firestore.collection("Quizzes").orderBy("title", Query.Direction.DESCENDING)
+
         collectionReference.addSnapshotListener { value, error ->
             if (value == null || error != null) {
                 Toast.makeText(this, "Error fetching data....", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
-            for (x in value) {
-                Log.d("YperFor", x.data.toString())
-            }
-            if (value.isEmpty) {
-                Log.d("Yper", "value empty")
-            }
-            Log.d("Yper", value.toString() + " : 1")
-            Log.d("Yper", value.toObjects(Quiz::class.java).toString() + " : 2")
-
             quizList.clear()
             quizList.addAll(value.toObjects(Quiz::class.java))
-            Log.d("Yper", "$quizList : 3")
+
             adapter.notifyDataSetChanged()
         }
     }
@@ -129,21 +120,12 @@ class MainActivity : AppCompatActivity() {
             datePicker.show(supportFragmentManager, "DatePicker")
 
             datePicker.addOnPositiveButtonClickListener {
-                Log.d("DatePicker", datePicker.headerText)
-
                 val dateFormatter = SimpleDateFormat("dd-MM-yyyy")
                 val date = dateFormatter.format(Date(it))
-                Log.d("YperDateInMain", date)
 
                 val intent = Intent(this, QuestionActivity::class.java)
                 intent.putExtra("DATE", date)
                 startActivity(intent)
-            }
-            datePicker.addOnNegativeButtonClickListener {
-                Log.d("DatePicker", "Negative")
-            }
-            datePicker.addOnCancelListener {
-                Log.d("DatePicker", "Cancelled")
             }
         }
     }

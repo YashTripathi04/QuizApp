@@ -3,10 +3,8 @@ package com.example.quizapp.adapters
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quizapp.activities.QuestionActivity
 import com.example.quizapp.databinding.QuizItemBinding
@@ -23,7 +21,6 @@ class QuizAdapter(val context: Context, val quizzes: List<Quiz>) :
 
         fun bind(quiz: Quiz) {
             binding.apply {
-                Log.d("YperTitle", quiz.title)
                 quizTitle.text = quiz.title
                 quizIcon.setImageResource(IconPicker.getIcon())
                 cardContainer.setCardBackgroundColor(Color.parseColor(ColorPicker.getColor()))

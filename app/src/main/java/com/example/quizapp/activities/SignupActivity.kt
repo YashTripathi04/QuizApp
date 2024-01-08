@@ -2,7 +2,6 @@ package com.example.quizapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.quizapp.databinding.ActivitySignupBinding
@@ -39,15 +38,11 @@ class SignupActivity : AppCompatActivity() {
         val password = binding.etSignUpPassword.text.toString()
         val confirmPassword = binding.etSignUpConfirmPassword.text.toString()
 
-        Log.d("bug1", "in signUpUser")
-        Log.d("bug1", "$email, $password, $confirmPassword")
         if (email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
-            Log.d("bug1", "checking if blank")
             Toast.makeText(this, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             return
         }
         if (password != confirmPassword) {
-            Log.d("bug1", "in p & cp")
             Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT)
                 .show()
             return
@@ -69,6 +64,5 @@ class SignupActivity : AppCompatActivity() {
                     Toast.makeText(this, "Couldn't log in", Toast.LENGTH_SHORT).show()
                 }
             }
-
     }
 }

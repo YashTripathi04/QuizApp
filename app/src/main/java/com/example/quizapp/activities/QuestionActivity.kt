@@ -2,7 +2,6 @@ package com.example.quizapp.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -58,7 +57,7 @@ class QuestionActivity : AppCompatActivity() {
                 description.text = it.description
                 optionsListRecycleView.layoutManager = LinearLayoutManager(this@QuestionActivity)
                 optionsListRecycleView.adapter = optionAdapter
-                optionsListRecycleView.setHasFixedSize(true) // improves performance as we know this rv has fixed size = 4
+                optionsListRecycleView.setHasFixedSize(true) // improves performance as we know this recylcerview has fixed size = 4
             }
         }
         supportActionBar?.title = "Quiz: $actionBarTitle"
@@ -67,20 +66,16 @@ class QuestionActivity : AppCompatActivity() {
     private fun setUpFirebase() {
         val firestore = FirebaseFirestore.getInstance()
         val date = intent.getStringExtra("DATE")
-        actionBarTitle = date!!
-        Log.d("YperDate", "$date")
         if (date != null) {
+            actionBarTitle = date
             firestore.collection("Quizzes")
                 .whereEqualTo("title", date)
                 .get()
                 .addOnSuccessListener {
                     if (it != null && !it.isEmpty) {
                         quizzes = it.toObjects(Quiz::class.java)
-                        Log.d("YperQuiz", it.toString())
                         /** we know for sure that quizzes wont be null, thus we proceed further using !! (non-null asserted call) */
                         questions = quizzes!![0].questions
-                        val s = questions!!.size
-                        Log.d("YperLength", "$s")
                         setUpQuestionActivity()
                     } else {
                         Toast.makeText(this, "No quiz available", Toast.LENGTH_SHORT).show()
@@ -102,8 +97,6 @@ class QuestionActivity : AppCompatActivity() {
                 setUpQuestionActivity()
             }
             btnSubmit.setOnClickListener {
-                Log.d("YperSubmit", questions.toString())
-
                 /** Quiz serialized to string & then sent to ResultActivity*/
                 val intent = Intent(this@QuestionActivity, ResultActivity::class.java)
                 val json = Gson().toJson(quizzes!![0])
@@ -112,7 +105,6 @@ class QuestionActivity : AppCompatActivity() {
                 finish()
             }
         }
-
         /**
         Question object has all data including userAnswer & correct answer.
         We pass this Question object to the ResultActivity for generation of result.
@@ -121,7 +113,6 @@ class QuestionActivity : AppCompatActivity() {
         For objects we must make that class: 1) Parcelable or 2) Serializable
 
         In method 2, object is serialized to a string, sent, then deserialized on receiving.
-
          */
     }
 }
